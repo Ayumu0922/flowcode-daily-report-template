@@ -1,0 +1,47 @@
+import { motion } from 'framer-motion';
+import { Calendar, Trash2 } from 'lucide-react';
+import { useReportStore } from '../store/reportStore';
+
+const moods = ['', '😫', '😟', '😐', '🙂', '😄'];
+const statusColors: Record<string, string> = { done: 'bg-emerald-500/10 text-emerald-400', 'in-progress': 'bg-sky-500/10 text-sky-400', blocked: 'bg-red-500/10 text-red-400' };
+const statusLabels: Record<string, string> = { done: '完了', 'in-progress': '進行中', blocked: '停滞' };
+
+export default function TimelinePage() {
+  const { reports, deleteReport } = useReportStore();
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
+      <h1 className="text-xl font-bold text-white mb-6">タイムライン</h1>
+      {reports.length === 0 ? (
+        <p className="text-zinc-500 text-center py-12">日報がありません</p>
+      ) : (
+        <div className="space-y-4">
+          {reports.map((r) => (
+            <div key={r.id} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <Calendar className="w-4 h-4 text-sky-400" />
+                  <span className="text-sm font-semibold text-white">{r.date}</span>
+                  <span className="text-xs text-zinc-500">{r.author}</span>
+                  <span className="text-lg">{moods[r.mood]}</span>
+                </div>
+                <button onClick={() => deleteReport(r.id)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400"><Trash2 className="w-4 h-4" /></button>
+              </div>
+              <div className="space-y-1.5 mb-3">
+                {r.tasks.map((t, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${statusColors[t.status]}`}>{statusLabels[t.status]}</span>
+                    <span className="text-sm text-zinc-300 flex-1">{t.title}</span>
+                    <span className="text-xs text-zinc-500">{t.hours}h</span>
+                  </div>
+                ))}
+              </div>
+              {r.achievements && <p className="text-sm text-zinc-400 mt-2"><span className="text-emerald-400 text-xs mr-1">成果:</span>{r.achievements}</p>}
+              {r.issues && <p className="text-sm text-zinc-400 mt-1"><span className="text-red-400 text-xs mr-1">課題:</span>{r.issues}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+    </motion.div>
+  );
+}
