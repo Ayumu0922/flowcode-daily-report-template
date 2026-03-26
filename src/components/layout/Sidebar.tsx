@@ -1,8 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { FileText, PenSquare, Clock, LayoutTemplate, Settings } from 'lucide-react';
-import ThemeToggle from '../ui/ThemeToggle';
-import ThemeColorPicker from '../ui/ThemeColorPicker';
-import DataManager from '../ui/DataManager';
+import SidebarSettings from '../ui/SidebarSettings';
 
 const links = [
   { to: '/', icon: PenSquare, label: '今日の日報' },
@@ -25,11 +23,7 @@ export default function Sidebar() {
           }><Icon className="w-4 h-4" />{label}</NavLink>
         ))}
       </nav>
-      <div data-fc-id="Sidebar-footer" className="border-t border-zinc-800 pt-3 flex flex-col gap-1">
-        <DataManager storageKey="report-storage" exportFileName="daily-report-data" />
-        <ThemeColorPicker />
-        <ThemeToggle />
-      </div>
+      <SidebarSettings storageKey="report-storage" exportFileName="daily-report-data" />
     </aside>
   );
 }
