@@ -24,9 +24,9 @@ export default function TimelinePage() {
 
   return (
     <PageTransition className="max-w-3xl mx-auto">
-      <h1 className="text-xl font-bold text-white mb-6">タイムライン</h1>
+      <h1 className="text-xl font-bold text-foreground mb-6">タイムライン</h1>
       {reports.length === 0 ? (
-        <EmptyState icon={FileText} title="日報がありません" description="今日の日報を作成してみましょう" action={<Link to="/" className="inline-flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-500 text-white text-sm font-medium rounded-lg transition-colors">日報を書く</Link>} />
+        <EmptyState icon={FileText} title="日報がありません" description="今日の日報を作成してみましょう" action={<Link to="/" className="inline-flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-500 text-on-accent text-sm font-medium rounded-lg transition-colors">日報を書く</Link>} />
       ) : (
         <div className="space-y-4">
           {reports.map((r) => (
@@ -34,7 +34,7 @@ export default function TimelinePage() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <Calendar className="w-4 h-4 text-accent-400" />
-                  <span className="text-sm font-semibold text-white">{r.date}</span>
+                  <span className="text-sm font-semibold text-foreground">{r.date}</span>
                   <span className="text-xs text-zinc-500">{r.author}</span>
                   <span className="text-lg">{moods[r.mood]}</span>
                 </div>
