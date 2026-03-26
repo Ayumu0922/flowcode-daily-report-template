@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Plus, Trash2 } from 'lucide-react';
+import PageTransition from '../components/ui/PageTransition';
 import { useReportStore } from '../store/reportStore';
 import { useConfirm } from '../components/ui/ConfirmDialog';
 
@@ -24,7 +24,7 @@ export default function TemplatePage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl mx-auto space-y-6">
+    <PageTransition className="max-w-2xl mx-auto space-y-6">
       <h1 className="text-xl font-bold text-white">テンプレート</h1>
       <form onSubmit={handleAdd} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 space-y-4">
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="テンプレート名" className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-accent-500/50" />
@@ -39,6 +39,6 @@ export default function TemplatePage() {
           </div>
         ))}
       </div>
-    </motion.div>
+    </PageTransition>
   );
 }

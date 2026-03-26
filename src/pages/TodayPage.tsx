@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Plus, Trash2 } from 'lucide-react';
+import PageTransition from '../components/ui/PageTransition';
 import { useReportStore, type DailyReport } from '../store/reportStore';
 import { useToast } from '../components/ui/Toast';
 
@@ -34,7 +34,7 @@ export default function TodayPage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
+    <PageTransition className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-white">今日の日報</h1>
         {templates.length > 0 && (
@@ -79,6 +79,6 @@ export default function TodayPage() {
         </div>
         <button type="submit" className="bg-accent-600 hover:bg-accent-500 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-colors">日報を提出</button>
       </form>
-    </motion.div>
+    </PageTransition>
   );
 }

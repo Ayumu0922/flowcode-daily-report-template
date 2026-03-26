@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion';
-import { Calendar, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Calendar, FileText, Trash2 } from 'lucide-react';
+import PageTransition from '../components/ui/PageTransition';
+import EmptyState from '../components/ui/EmptyState';
 import { useReportStore } from '../store/reportStore';
 import { useToast } from '../components/ui/Toast';
 import { useConfirm } from '../components/ui/ConfirmDialog';
@@ -21,10 +23,10 @@ export default function TimelinePage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
+    <PageTransition className="max-w-3xl mx-auto">
       <h1 className="text-xl font-bold text-white mb-6">タイムライン</h1>
       {reports.length === 0 ? (
-        <p className="text-zinc-500 text-center py-12">日報がありません</p>
+        <EmptyState icon={FileText} title="日報がありません" description="今日の日報を作成してみましょう" action={<Link to="/" className="inline-flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-500 text-white text-sm font-medium rounded-lg transition-colors">日報を書く</Link>} />
       ) : (
         <div className="space-y-4">
           {reports.map((r) => (
@@ -53,6 +55,6 @@ export default function TimelinePage() {
           ))}
         </div>
       )}
-    </motion.div>
+    </PageTransition>
   );
 }
