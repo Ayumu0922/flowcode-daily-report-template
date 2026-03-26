@@ -1,5 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { FileText, PenSquare, Clock, LayoutTemplate, Settings } from 'lucide-react';
+import ThemeToggle from '../ui/ThemeToggle';
+import ThemeColorPicker from '../ui/ThemeColorPicker';
+import DataManager from '../ui/DataManager';
 
 const links = [
   { to: '/', icon: PenSquare, label: '今日の日報' },
@@ -10,18 +13,23 @@ const links = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-60 border-r border-zinc-800 bg-zinc-900/50 p-4 flex flex-col">
-      <div className="flex items-center gap-2 px-3 py-4 mb-4">
-        <FileText className="w-6 h-6 text-sky-500" />
+    <aside data-fc-id="Sidebar-root" className="w-60 h-full border-r border-zinc-800 bg-zinc-900/50 p-4 flex flex-col">
+      <div data-fc-id="Sidebar-brand" className="flex items-center gap-2 px-3 py-4 mb-4">
+        <FileText className="w-6 h-6 text-accent-500" />
         <span className="text-base font-bold text-white">日報システム</span>
       </div>
-      <nav className="flex flex-col gap-1">
+      <nav data-fc-id="Sidebar-nav" className="flex flex-col gap-1 flex-1">
         {links.map(({ to, icon: Icon, label }) => (
           <NavLink key={to} to={to} className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? 'bg-sky-500/10 text-sky-400' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'}`
+            `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? 'bg-accent-500/10 text-accent-400' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'}`
           }><Icon className="w-4 h-4" />{label}</NavLink>
         ))}
       </nav>
+      <div data-fc-id="Sidebar-footer" className="border-t border-zinc-800 pt-3 flex flex-col gap-1">
+        <DataManager storageKey="report-storage" exportFileName="daily-report-data" />
+        <ThemeColorPicker />
+        <ThemeToggle />
+      </div>
     </aside>
   );
 }

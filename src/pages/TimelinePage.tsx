@@ -1,13 +1,24 @@
 import { motion } from 'framer-motion';
 import { Calendar, Trash2 } from 'lucide-react';
 import { useReportStore } from '../store/reportStore';
+import { useToast } from '../components/ui/Toast';
+import { useConfirm } from '../components/ui/ConfirmDialog';
 
 const moods = ['', '😫', '😟', '😐', '🙂', '😄'];
-const statusColors: Record<string, string> = { done: 'bg-emerald-500/10 text-emerald-400', 'in-progress': 'bg-sky-500/10 text-sky-400', blocked: 'bg-red-500/10 text-red-400' };
+const statusColors: Record<string, string> = { done: 'bg-emerald-500/10 text-emerald-400', 'in-progress': 'bg-accent-500/10 text-accent-400', blocked: 'bg-red-500/10 text-red-400' };
 const statusLabels: Record<string, string> = { done: '完了', 'in-progress': '進行中', blocked: '停滞' };
 
 export default function TimelinePage() {
   const { reports, deleteReport } = useReportStore();
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
+
+  const handleDelete = async (id: string) => {
+    const ok = await confirm({ title: '日報を削除', message: 'この日報を削除してもよろしいですか？', confirmLabel: '削除', variant: 'danger' });
+    if (!ok) return;
+    deleteReport(id);
+    showToast('日報を削除しました', 'success');
+  };
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
@@ -20,12 +31,12 @@ export default function TimelinePage() {
             <div key={r.id} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <Calendar className="w-4 h-4 text-sky-400" />
+                  <Calendar className="w-4 h-4 text-accent-400" />
                   <span className="text-sm font-semibold text-white">{r.date}</span>
                   <span className="text-xs text-zinc-500">{r.author}</span>
                   <span className="text-lg">{moods[r.mood]}</span>
                 </div>
-                <button onClick={() => deleteReport(r.id)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400"><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => handleDelete(r.id)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400"><Trash2 className="w-4 h-4" /></button>
               </div>
               <div className="space-y-1.5 mb-3">
                 {r.tasks.map((t, i) => (
